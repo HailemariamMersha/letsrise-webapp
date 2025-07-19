@@ -1,101 +1,81 @@
 # Letsrise Webapp
 
-## Overview
-Letsrise is a venture intelligence platform that helps accelerators post their openings and enables entrepreneurs to apply. The platform also supports identity assessments, courses, founder/team matching, and more. Our main revenue stream is helping accelerators attract and filter qualified applications, making the process more consistent, unbiased, and efficient.
+## What is Letsrise?
+Letsrise is a platform that helps accelerators post their openings and enables entrepreneurs to apply. It also offers identity assessments, courses, and team matching. Our goal is to make the application process for accelerators more fair, efficient, and successful for everyone involved.
 
-## Features
-- **Role Selection:** Users choose to continue as Entrepreneur, Accelerator, or Investor after login.
-- **Entrepreneur Experience:**
-  - Identity assessment with beautiful personalized reports
-  - Course participation
-  - Team/founder matching (planned)
-- **Accelerator Experience:**
-  - Post openings (coming soon)
-  - Filter and evaluate applicants (coming soon)
-- **Investor Experience:**
-  - Discover startups and track cohorts (coming soon)
-- **Admin Dashboard:**
-  - User, assessment, report, course, subscription, log, and analytics management
-  - Role-based access control
-- **PostgreSQL Database:**
-  - Prisma ORM for schema and migrations
-  - Secure storage of assessment results and user data
+## Who is this for?
+- **Entrepreneurs:** Take assessments, join courses, and match with cofounders or teams.
+- **Accelerators:** Post openings, filter applicants, and find the best startups (coming soon).
+- **Investors:** Discover promising startups and track accelerator cohorts (coming soon).
 
-## Folder Structure
-```
-.
-├── components/         # Reusable UI components (AdminTable, AdminCard, etc.)
-├── context/            # React context (AuthContext)
-├── lib/                # Backend utilities (db, Prisma, Firebase, etc.)
-├── pages/              # Next.js pages (admin, api, assessment, etc.)
-├── styles/             # Tailwind CSS
-├── prisma/             # Prisma schema and migrations
-├── .env.local          # Environment variables (not committed)
-├── README.md           # This documentation
-```
+## Design Considerations
+- **Role-based Experience:** Users choose their role (Entrepreneur, Accelerator, Investor) right after login for a personalized experience.
+- **Modern, Friendly UI:** The app uses a clean, modern design with clear navigation and helpful feedback.
+- **Admin Dashboard:** A powerful admin area lets platform managers see users, applications, reports, and more.
+- **Separation of Concerns:** The database and backend logic are separated so each team can work independently.
+- **Security:** Sensitive information (like API keys) is never stored in the codebase.
 
-## Setup Instructions
-1. **Clone the repo:**
-   ```sh
-   git clone git@github.com:HailemariamMersha/letsrise-webapp.git
-   cd letsrise-webapp
-   ```
-2. **Install dependencies:**
-   ```sh
-   npm install
-   # or
-   yarn install
-   ```
-3. **Set up environment variables:**
-   - Copy `.env.example` to `.env.local` (create `.env.example` if needed)
-   - Add your Firebase and PostgreSQL credentials:
-     ```
-     NEXT_PUBLIC_FIREBASE_API_KEY=...
-     NEXT_PUBLIC_FIREBASE_AUTH_DOMAIN=...
-     DATABASE_URL=postgresql://username:password@localhost:5432/letsrise
-     ```
-4. **Set up the database:**
-   - Install PostgreSQL locally or use a managed service
-   - Run Prisma migrations:
+## How to Get Started
+
+### 1. Clone the Project
+- **Windows:**
+  1. Install [Git for Windows](https://git-scm.com/download/win) if you don't have it.
+  2. Open Git Bash or Command Prompt.
+  3. Run:
      ```sh
-     npx prisma migrate dev
+     git clone https://github.com/HailemariamMersha/letsrise-webapp.git
+     cd letsrise-webapp
      ```
-5. **Run the app locally:**
-   ```sh
-   npm run dev
-   # or
-   yarn dev
-   ```
+- **Mac:**
+  1. Open Terminal.
+  2. Run:
+     ```sh
+     git clone https://github.com/HailemariamMersha/letsrise-webapp.git
+     cd letsrise-webapp
+     ```
 
-## Database Workflow (Prisma)
-- All schema changes are made in `prisma/schema.prisma`.
-- Run `npx prisma migrate dev --name <migration-name>` to create and apply migrations.
-- Commit and push your schema and migration files.
-- Other developers pull and run `npx prisma migrate dev` to sync their local DB.
-- Never commit `.env.local` or actual database files.
+### 2. Install Dependencies
+- **Windows:**
+  - Open Command Prompt or PowerShell in the project folder and run:
+    ```sh
+    npm install
+    ```
+- **Mac:**
+  - In Terminal, run:
+    ```sh
+    npm install
+    ```
 
-## Environment Variables
-- Store all secrets (Firebase, DB, etc.) in `.env.local` (gitignored).
-- Example:
+### 3. Set Up Environment Variables
+- Copy `.env.example` to `.env.local`:
+  ```sh
+  cp .env.example .env.local
   ```
-  NEXT_PUBLIC_FIREBASE_API_KEY=your-key
-  DATABASE_URL=postgresql://user:pass@localhost:5432/letsrise
-  ```
+- Add your Firebase credentials and any other required variables to `.env.local`.
+- **Note:** The database is handled separately. The next developer should connect their own database logic.
 
-## Running Locally
-- Visit `http://localhost:3000` after running `npm run dev`.
-- After login, select your role (Entrepreneur, Accelerator, Investor).
+### 4. Run the App Locally
+- **Windows:**
+  ```sh
+  npm run dev
+  ```
+- **Mac:**
+  ```sh
+  npm run dev
+  ```
+- Open your browser and go to [http://localhost:3000](http://localhost:3000)
+
+## What Happens Next?
+- After login, you’ll be asked to choose your role (Entrepreneur, Accelerator, Investor).
+- Entrepreneurs can take assessments, join courses, and more.
 - Admins can access `/admin` for the full dashboard.
+- Accelerators and Investors will see a "Coming Soon" message (these features are being built).
 
-## Deployment Notes
-- Set all environment variables in your deployment platform (Vercel, Heroku, etc.).
-- Use a managed PostgreSQL database for production.
-- Never expose secrets in the repo.
-
-## Contribution Guidelines
-- Use feature branches and pull requests.
+## For Developers
+- All backend/database logic is to be added by the next developer.
+- The UI and frontend logic are ready for integration.
+- Use feature branches and pull requests for changes.
 - Keep all secrets out of the repo.
-- Use `npx prisma migrate dev` for DB changes.
 - Keep code modular and well-documented.
 
 ## License
