@@ -1,8 +1,6 @@
 import { useState, useEffect } from "react";
 import { useRouter } from "next/router";
 import { useAuth } from "../context/AuthContext";
-import { db } from "../lib/firebase";
-import { doc, setDoc, getDoc } from "firebase/firestore";
 import Navbar from "../components/Navbar";
 import { Fragment } from "react";
 
@@ -140,7 +138,6 @@ export default function Survey() {
   const { user, loading } = useAuth();
   const router = useRouter();
   const [currentStep, setCurrentStep] = useState(1);
-  const [profileScore, setProfileScore] = useState(0);
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [showOtherIndustry, setShowOtherIndustry] = useState(false);
   const [otherIndustry, setOtherIndustry] = useState("");
@@ -225,33 +222,6 @@ export default function Survey() {
       router.replace("/login");
     }
   }, [user, loading, router]);
-
-  useEffect(() => {
-    calculateProfileScore();
-  }, [formData]);
-
-  const calculateProfileScore = () => {
-    let score = 0;
-    const totalFields = 15; // Total number of important fields
-
-    if (formData.name) score++;
-    if (formData.location) score++;
-    if (formData.dob) score++;
-    if (formData.educationalLevel) score++;
-    if (formData.industries.length > 0) score++;
-    if (formData.role) score++;
-    if (formData.experiences[0]?.companyName) score++;
-    if (formData.projectName) score++;
-    if (formData.projectStage) score++;
-    if (formData.projectRole) score++;
-    if (formData.projectIndustry) score++;
-    if (formData.primaryCustomer) score++;
-    if (formData.projectLocation) score++;
-    if (formData.licenseRegistration) score++;
-    if (formData.teamMembers.length > 0) score++;
-
-    setProfileScore(Math.round((score / totalFields) * 100));
-  };
 
   const handleInputChange = (field, value) => {
     setFormData(prev => ({
@@ -362,23 +332,13 @@ export default function Survey() {
   };
 
   const handleSubmit = async () => {
-    if (!user) return;
-
     setIsSubmitting(true);
     try {
-      const surveyData = {
-        ...formData,
-        userId: user.uid,
-        userEmail: user.email,
-        submittedAt: new Date(),
-        profileScore
-      };
-
-      await setDoc(doc(db, "surveys", user.uid), surveyData);
+      // Simply redirect to assessment - no database saving
       router.push("/assessment");
     } catch (error) {
-      console.error("Error submitting survey:", error);
-      alert("Error submitting survey. Please try again.");
+      console.error("Error redirecting to assessment:", error);
+      alert("Error redirecting to assessment. Please try again.");
     } finally {
       setIsSubmitting(false);
     }
@@ -526,7 +486,7 @@ export default function Survey() {
         <div className="mb-8">
           <div className="flex items-center justify-between mb-2">
             <span className="text-sm font-medium text-gray-700">
-              Profile Completion: {profileScore}%
+              Survey Progress
             </span>
             <span className="text-sm text-gray-500">
               Step {currentStep} of 3
@@ -1184,7 +1144,7 @@ export default function Survey() {
                 disabled={isSubmitting}
                 className="px-6 py-2 bg-green-600 text-white rounded-md hover:bg-green-700 transition-colors disabled:opacity-50"
               >
-                {isSubmitting ? "Submitting..." : "Submit Survey"}
+                {isSubmitting ? "Redirecting..." : "Complete Survey & Take Assessment"}
           </button>
         </div>
           </div>
